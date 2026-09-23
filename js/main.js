@@ -71,8 +71,62 @@
   }
 
   /* ----------------------------------------------------------------------
-     3. SMOOTH SCROLL WITH HEADER OFFSET
+     3. RITUAL FIELD — Synchronized process indicator
      ---------------------------------------------------------------------- */
+
+  var ritualField = document.querySelector('.ritual-field');
+  var ritualPhases = ritualField
+    ? Array.prototype.slice.call(ritualField.querySelectorAll('[data-phase]'))
+    : [];
+
+  if (ritualPhases.length) {
+    var ritualPhase = 0;
+    var ritualTimer = null;
+    var showRitualPhase = function (phase) {
+      ritualPhases.forEach(function (item, index) {
+        item.classList.toggle('is-current', index === phase);
+      });
+    };
+
+    var startRitual = function () {
+      if (ritualTimer) return;
+      showRitualPhase(0);
+      ritualTimer = window.setInterval(function () {
+        ritualPhase = (ritualPhase + 1) % ritualPhases.length;
+        showRitualPhase(ritualPhase);
+      }, 3000);
+    };
+
+    showRitualPhase(ritualPhase);
+
+    if (!window.matchMedia('(prefers-reduced-motion: reduce)').matches) {
+      if ('IntersectionObserver' in window) {
+        var ritualObserver = new IntersectionObserver(function (entries, observer) {
+          entries.forEach(function (entry) {
+            if (entry.isIntersecting) {
+              startRitual();
+              observer.disconnect();
+            }
+          });
+        }, { threshold: 0.25 });
+        ritualObserver.observe(ritualField);
+      } else {
+        startRitual();
+      }
+    }
+  }
+
+  /* ----------------------------------------------------------------------
+     4. SMOOTH SCROLL WITH HEADER OFFSET
+     ---------------------------------------------------------------------- */
+
+  // About and Contact are visible navigation placeholders until their pages
+  // exist. Prevent the temporary '#' href from scrolling to the page top.
+  document.querySelectorAll('.nav-placeholder').forEach(function (link) {
+    link.addEventListener('click', function (e) {
+      e.preventDefault();
+    });
+  });
 
   document.querySelectorAll('a[href^="#"]').forEach(function (link) {
     link.addEventListener('click', function (e) {
@@ -84,8 +138,9 @@
 
       e.preventDefault();
 
-      var header = document.querySelector('.site-header');
-      var offset = header ? header.offsetHeight + 24 : 96;
+      // The header scrolls with the document, so subtracting its height here
+      // would move the destination too far above the viewport.
+      var offset = 24;
       var top = target.getBoundingClientRect().top + window.pageYOffset - offset;
 
       window.scrollTo({
