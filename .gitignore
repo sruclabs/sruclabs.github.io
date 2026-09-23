@@ -1,0 +1,8 @@
+.DS_Store
+
+# Separate project repository
+/magnetsearch/
+
+# Source materials kept outside the deployed homepage
+/SrucLabs_Logo/
+/SrucLabsBrandIdentity
