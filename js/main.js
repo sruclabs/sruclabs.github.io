@@ -1,191 +1,202 @@
-/* ==========================================================================
-   SRUC LABS — Main Script
-   ========================================================================== */
-
+/* Sruc Labs — interactions. Plain JS, no dependencies. */
 (function () {
   'use strict';
 
-  /* ----------------------------------------------------------------------
-     1. MOBILE MENU
-     ---------------------------------------------------------------------- */
+  var reduceMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
 
-  var menuToggle = document.querySelector('.menu-toggle');
-  var nav = document.querySelector('.site-nav');
-
-  function openMenu() {
-    nav.classList.add('is-open');
-    menuToggle.setAttribute('aria-expanded', 'true');
-    menuToggle.textContent = 'Close';
-  }
-
-  function closeMenu() {
-    nav.classList.remove('is-open');
-    menuToggle.setAttribute('aria-expanded', 'false');
-    menuToggle.textContent = 'Menu';
-  }
-
-  if (menuToggle && nav) {
-    menuToggle.addEventListener('click', function () {
-      var isOpen = nav.classList.contains('is-open');
-      if (isOpen) {
-        closeMenu();
-      } else {
-        openMenu();
-      }
-    });
-
-    // Close on nav link click
-    nav.querySelectorAll('a').forEach(function (link) {
-      link.addEventListener('click', function () {
-        closeMenu();
-      });
-    });
-
-    // Close on Escape key
-    document.addEventListener('keydown', function (e) {
-      if (e.key === 'Escape' && nav.classList.contains('is-open')) {
-        closeMenu();
-        menuToggle.focus();
-      }
-    });
-
-    // Close when clicking outside the nav
-    document.addEventListener('click', function (e) {
-      if (
-        nav.classList.contains('is-open') &&
-        !nav.contains(e.target) &&
-        !menuToggle.contains(e.target)
-      ) {
-        closeMenu();
-      }
-    });
-  }
-
-  /* ----------------------------------------------------------------------
-     2. YEAR
-     ---------------------------------------------------------------------- */
-
-  var yearEl = document.getElementById('year');
-  if (yearEl) {
-    yearEl.textContent = new Date().getFullYear();
-  }
-
-  /* ----------------------------------------------------------------------
-     3. RITUAL FIELD — Synchronized process indicator
-     ---------------------------------------------------------------------- */
-
-  var ritualField = document.querySelector('.ritual-field');
-  var ritualPhases = ritualField
-    ? Array.prototype.slice.call(ritualField.querySelectorAll('[data-phase]'))
-    : [];
-
-  if (ritualPhases.length) {
-    var ritualPhase = 0;
-    var ritualTimer = null;
-    var showRitualPhase = function (phase) {
-      ritualPhases.forEach(function (item, index) {
-        item.classList.toggle('is-current', index === phase);
-      });
-    };
-
-    var startRitual = function () {
-      if (ritualTimer) return;
-      showRitualPhase(0);
-      ritualTimer = window.setInterval(function () {
-        ritualPhase = (ritualPhase + 1) % ritualPhases.length;
-        showRitualPhase(ritualPhase);
-      }, 3000);
-    };
-
-    showRitualPhase(ritualPhase);
-
-    if (!window.matchMedia('(prefers-reduced-motion: reduce)').matches) {
-      if ('IntersectionObserver' in window) {
-        var ritualObserver = new IntersectionObserver(function (entries, observer) {
-          entries.forEach(function (entry) {
-            if (entry.isIntersecting) {
-              startRitual();
-              observer.disconnect();
-            }
-          });
-        }, { threshold: 0.25 });
-        ritualObserver.observe(ritualField);
-      } else {
-        startRitual();
-      }
+  /* 0. Theme (dark / light) — initial value set inline in <head> */
+  var root = document.documentElement;
+  var themeToggle = document.getElementById('theme-toggle');
+  var themeMeta = document.querySelector('meta[name="theme-color"]');
+  function applyTheme(t) {
+    root.dataset.theme = t;
+    try { localStorage.setItem('sruc-theme', t); } catch (err) { /* ignore */ }
+    if (themeMeta) themeMeta.setAttribute('content', t === 'dark' ? '#0C1210' : '#F6F7F3');
+    if (themeToggle) {
+      themeToggle.setAttribute('aria-pressed', t === 'dark' ? 'true' : 'false');
+      themeToggle.setAttribute('aria-label', t === 'dark' ? 'Switch to light theme' : 'Switch to dark theme');
     }
   }
-
-  /* ----------------------------------------------------------------------
-     4. SMOOTH SCROLL WITH HEADER OFFSET
-     ---------------------------------------------------------------------- */
-
-  // About and Contact are visible navigation placeholders until their pages
-  // exist. Prevent the temporary '#' href from scrolling to the page top.
-  document.querySelectorAll('.nav-placeholder').forEach(function (link) {
-    link.addEventListener('click', function (e) {
-      e.preventDefault();
+  if (root.dataset.theme !== 'dark' && root.dataset.theme !== 'light') {
+    root.dataset.theme = 'light';
+  }
+  applyTheme(root.dataset.theme);
+  if (themeToggle) {
+    themeToggle.addEventListener('click', function () {
+      applyTheme(root.dataset.theme === 'dark' ? 'light' : 'dark');
     });
+  }
+
+  /* 1. Year */
+  var year = document.getElementById('year');
+  if (year) year.textContent = String(new Date().getFullYear());
+
+  /* 2. Local clock (24h, HH:MM) */
+  var clock = document.getElementById('clock');
+  function tick() {
+    if (!clock) return;
+    var d = new Date();
+    clock.textContent =
+      String(d.getHours()).padStart(2, '0') + ':' + String(d.getMinutes()).padStart(2, '0');
+  }
+  tick();
+  window.setInterval(tick, 20000);
+
+  /* 3. Mobile menu */
+  var btn = document.querySelector('.menu-btn');
+  var menu = document.getElementById('mobilemenu');
+  function setMenu(open) {
+    if (!btn || !menu) return;
+    menu.classList.toggle('open', open);
+    btn.setAttribute('aria-expanded', open ? 'true' : 'false');
+    btn.textContent = open ? 'Close' : 'Menu';
+  }
+  if (btn && menu) {
+    btn.addEventListener('click', function () {
+      setMenu(!menu.classList.contains('open'));
+    });
+    menu.querySelectorAll('a').forEach(function (a) {
+      a.addEventListener('click', function () {
+        // In-page links are closed by the scroll handler below (after a
+        // delay, so the landing is measured with the menu fully shut).
+        // Close anything else here straight away.
+        var href = a.getAttribute('href') || '';
+        if (href.charAt(0) !== '#') setMenu(false);
+      });
+    });
+    document.addEventListener('keydown', function (e) {
+      if (e.key === 'Escape' && menu.classList.contains('open')) {
+        setMenu(false);
+        btn.focus();
+      }
+    });
+  }
+
+  /* 4. Calm scroll for in-page links — one ease, no overshoot, cancellable */
+  function easeInOutCubic(t) {
+    return t < 0.5 ? 4 * t * t * t : 1 - Math.pow(-2 * t + 2, 3) / 2;
+  }
+  var scrollRaf = null;
+  function cancelScroll() {
+    if (scrollRaf !== null) {
+      cancelAnimationFrame(scrollRaf);
+      scrollRaf = null;
+    }
+  }
+  ['wheel', 'touchstart', 'touchmove'].forEach(function (ev) {
+    window.addEventListener(ev, cancelScroll, { passive: true });
   });
+  function calmScrollTo(targetY, done) {
+    cancelScroll();
+    if (reduceMotion) {
+      window.scrollTo({ top: targetY, behavior: 'auto' });
+      if (done) done();
+      return;
+    }
+    var startY = window.pageYOffset;
+    var dist = targetY - startY;
+    if (Math.abs(dist) < 4) {
+      if (done) done();
+      return;
+    }
+    var dur = Math.min(1100, Math.max(600, Math.abs(dist) * 0.5));
+    var t0 = null;
+    function frame(now) {
+      if (t0 === null) t0 = now;
+      var t = Math.min(1, (now - t0) / dur);
+      window.scrollTo({ top: startY + dist * easeInOutCubic(t), behavior: 'auto' });
+      if (t < 1) {
+        scrollRaf = requestAnimationFrame(frame);
+      } else {
+        scrollRaf = null;
+        window.scrollTo({ top: targetY, behavior: 'auto' });
+        if (done) done();
+      }
+    }
+    scrollRaf = requestAnimationFrame(frame);
+  }
 
   document.querySelectorAll('a[href^="#"]').forEach(function (link) {
     link.addEventListener('click', function (e) {
-      var targetId = this.getAttribute('href');
-      if (targetId === '#') return;
-
-      var target = document.querySelector(targetId);
+      var id = link.getAttribute('href');
+      if (!id || id === '#') return;
+      var target = document.querySelector(id);
       if (!target) return;
-
       e.preventDefault();
-
-      // The header scrolls with the document, so subtracting its height here
-      // would move the destination too far above the viewport.
-      var offset = 24;
-      var top = target.getBoundingClientRect().top + window.pageYOffset - offset;
-
-      window.scrollTo({
-        top: top,
-        behavior: 'smooth'
-      });
-
-      // Update URL without jump
-      history.pushState(null, '', targetId);
+      // If the mobile menu is open it still occupies header height while
+      // collapsing, so measure only after it has finished closing.
+      var wasOpen = menu && menu.classList.contains('open');
+      setMenu(false);
+      var go = function () {
+        var top = target.getBoundingClientRect().top + window.pageYOffset - 88;
+        top = Math.max(0, top);
+        calmScrollTo(top, function () {
+          try { history.pushState(null, '', id); } catch (err) { /* ignore */ }
+        });
+      };
+      if (wasOpen) window.setTimeout(go, 400);
+      else go();
     });
   });
 
-  /* ----------------------------------------------------------------------
-     4. INTERSECTION OBSERVER — Reveal on Scroll
-     ---------------------------------------------------------------------- */
-
-  var revealItems = document.querySelectorAll('.reveal');
-  var prefersReducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)');
-
-  if (prefersReducedMotion.matches) {
-    // If reduced motion, show everything immediately
-    revealItems.forEach(function (item) {
-      item.classList.add('is-visible');
+  /* 5. Reveal on scroll — with a small cascade inside groups */
+  var items = document.querySelectorAll('.reveal');
+  items.forEach(function (el) {
+    var parent = el.parentElement;
+    if (!parent) return;
+    var siblings = Array.prototype.filter.call(parent.children, function (c) {
+      return c.classList && c.classList.contains('reveal');
     });
+    if (siblings.length > 1) {
+      var i = siblings.indexOf(el);
+      el.style.transitionDelay = Math.min(0.12, i * 0.06) + 's';
+    }
+  });
+  if (reduceMotion) {
+    items.forEach(function (el) { el.classList.add('in'); });
   } else if ('IntersectionObserver' in window) {
-    var revealObserver = new IntersectionObserver(
-      function (entries, observer) {
-        entries.forEach(function (entry) {
-          if (entry.isIntersecting) {
-            entry.target.classList.add('is-visible');
-            observer.unobserve(entry.target);
-          }
-        });
-      },
-      { threshold: 0.12 }
-    );
-
-    revealItems.forEach(function (item) {
-      revealObserver.observe(item);
-    });
+    var io = new IntersectionObserver(function (entries, obs) {
+      entries.forEach(function (en) {
+        if (en.isIntersecting) {
+          en.target.classList.add('in');
+          obs.unobserve(en.target);
+        }
+      });
+    }, { threshold: 0.12, rootMargin: '0px 0px -40px 0px' });
+    items.forEach(function (el) { io.observe(el); });
   } else {
-    // Fallback: show everything
-    revealItems.forEach(function (item) {
-      item.classList.add('is-visible');
-    });
+    items.forEach(function (el) { el.classList.add('in'); });
   }
 
+  /* 6. Figure steps — highlight in sync with the 6s carrier loop */
+  var steps = Array.prototype.slice.call(document.querySelectorAll('.figure-steps li'));
+  if (steps.length && !reduceMotion) {
+    var phase = 0;
+    var paint = function () {
+      steps.forEach(function (li, i) { li.classList.toggle('on', i === phase); });
+    };
+    paint();
+    var fig = document.querySelector('.figure');
+    var started = false;
+    var start = function () {
+      if (started) return;
+      started = true;
+      window.setInterval(function () {
+        phase = (phase + 1) % steps.length;
+        paint();
+      }, 2000);
+    };
+    if ('IntersectionObserver' in window && fig) {
+      var fio = new IntersectionObserver(function (entries, obs) {
+        entries.forEach(function (en) {
+          if (en.isIntersecting) { start(); obs.disconnect(); }
+        });
+      }, { threshold: 0.25 });
+      fio.observe(fig);
+    } else {
+      start();
+    }
+  } else if (steps.length) {
+    steps[1].classList.add('on');
+  }
 })();
