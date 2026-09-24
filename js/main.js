@@ -123,19 +123,14 @@
       var target = document.querySelector(id);
       if (!target) return;
       e.preventDefault();
-      // If the mobile menu is open it still occupies header height while
-      // collapsing, so measure only after it has finished closing.
-      var wasOpen = menu && menu.classList.contains('open');
+      // The mobile menu is an overlay — closing it changes no layout,
+      // so the landing is measured and scrolled to immediately.
       setMenu(false);
-      var go = function () {
-        var top = target.getBoundingClientRect().top + window.pageYOffset - 88;
-        top = Math.max(0, top);
-        calmScrollTo(top, function () {
-          try { history.pushState(null, '', id); } catch (err) { /* ignore */ }
-        });
-      };
-      if (wasOpen) window.setTimeout(go, 400);
-      else go();
+      var top = target.getBoundingClientRect().top + window.pageYOffset - 88;
+      top = Math.max(0, top);
+      calmScrollTo(top, function () {
+        try { history.pushState(null, '', id); } catch (err) { /* ignore */ }
+      });
     });
   });
 
