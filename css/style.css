@@ -246,7 +246,7 @@ img, svg { display: block; max-width: 100%; }
   opacity: 0; transform: translateY(4px);
   transition: opacity 0.3s ease, transform 0.35s var(--ease);
 }
-.mobilemenu.open { max-height: 420px; opacity: 1; transform: none; padding-bottom: 18px; }
+.mobilemenu.open { max-height: 420px; opacity: 1; transform: none; padding-bottom: 0; }
 .mobilemenu.open a { opacity: 1; transform: none; }
 .mobilemenu.open a:nth-child(2) { transition-delay: 0.05s; }
 .mobilemenu.open a:nth-child(3) { transition-delay: 0.1s; }

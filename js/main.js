@@ -27,6 +27,30 @@
     });
   }
 
+  /* 0b. Navigation — single source of truth. Desktop pill and mobile
+     menu both render from NAV_LINKS, so they cannot drift apart.
+     Runs before menu + click-to-scroll binding below. */
+  var NAV_LINKS = [
+    { href: '#contact', label: 'Write to us ↓', desktopClass: 'topnav-pill' }
+  ];
+  function buildLink(l, className) {
+    var a = document.createElement('a');
+    a.setAttribute('href', l.href);
+    if (className) a.className = className;
+    a.textContent = l.label;
+    if (/^https?:/.test(l.href)) {
+      a.setAttribute('target', '_blank');
+      a.setAttribute('rel', 'noopener');
+    }
+    return a;
+  }
+  var topnav = document.querySelector('.topnav');
+  var mobilemenuEl = document.getElementById('mobilemenu');
+  NAV_LINKS.forEach(function (l) {
+    if (topnav) topnav.appendChild(buildLink(l, l.desktopClass));
+    if (mobilemenuEl) mobilemenuEl.appendChild(buildLink(l, null));
+  });
+
   /* 1. Year */
   var year = document.getElementById('year');
   if (year) year.textContent = String(new Date().getFullYear());
