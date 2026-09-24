@@ -502,6 +502,8 @@ img, svg { display: block; max-width: 100%; }
   padding: 18px; max-width: 400px; width: 100%;
   box-shadow: 0 24px 60px rgba(0,0,0,0.28);
   transform: rotate(1.6deg); transition: transform 0.5s var(--ease);
+  /* mock stays a light interface in both modes — pin light vars */
+  --pine: #1E4A2E; --ink: #141613; --faint: #8A948C;
 }
 .work:hover .phone { transform: rotate(0deg) translateY(-4px); }
 .phone-top { display: flex; justify-content: space-between; font-family: var(--mono); font-size: 10px; letter-spacing: 0.12em; text-transform: uppercase; color: var(--faint); }
