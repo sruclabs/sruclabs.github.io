@@ -168,31 +168,41 @@
     items.forEach(function (el) { el.classList.add('in'); });
   }
 
-  /* 6. Figure steps — highlight in sync with the 6s carrier loop */
+  /* 6. Figure steps — one shared clock with the 6s liquid loop.
+     Edges match keyframe events, not even thirds: gather 0s (carrier
+     appears at eyelet), hold 2.04s (carrier reaches bowl, 34% of 6s),
+     release 3.24s (drop detaches, 54% of 6s). CSS loop is parked at t=0
+     until .go releases it in the same instant the highlights start. */
   var steps = Array.prototype.slice.call(document.querySelectorAll('.figure-steps li'));
+  var LOOP_MS = 6000;
+  var HOLD_AT = 2040;
+  var RELEASE_AT = 3240;
   if (steps.length && !reduceMotion) {
-    var phase = 0;
-    var paint = function () {
+    var paint = function (phase) {
       steps.forEach(function (li, i) { li.classList.toggle('on', i === phase); });
     };
-    paint();
-    var fig = document.querySelector('.figure');
     var started = false;
     var start = function () {
       if (started) return;
       started = true;
-      window.setInterval(function () {
-        phase = (phase + 1) % steps.length;
-        paint();
-      }, 2000);
+      var fig = document.querySelector('.figure');
+      if (fig) fig.classList.add('go');
+      var cycle = function () {
+        paint(0);
+        window.setTimeout(function () { paint(1); }, HOLD_AT);
+        window.setTimeout(function () { paint(2); }, RELEASE_AT);
+        window.setTimeout(cycle, LOOP_MS);
+      };
+      cycle();
     };
-    if ('IntersectionObserver' in window && fig) {
+    var figEl = document.querySelector('.figure');
+    if ('IntersectionObserver' in window && figEl) {
       var fio = new IntersectionObserver(function (entries, obs) {
         entries.forEach(function (en) {
           if (en.isIntersecting) { start(); obs.disconnect(); }
         });
       }, { threshold: 0.25 });
-      fio.observe(fig);
+      fio.observe(figEl);
     } else {
       start();
     }
