@@ -150,7 +150,9 @@
       // The mobile menu is an overlay — closing it changes no layout,
       // so the landing is measured and scrolled to immediately.
       setMenu(false);
-      var top = target.getBoundingClientRect().top + window.pageYOffset - 88;
+      var topbarIn = document.querySelector('.topbar-in');
+      var headerOffset = topbarIn ? (topbarIn.offsetHeight + 1) : 73;
+      var top = target.getBoundingClientRect().top + window.pageYOffset - headerOffset;
       top = Math.max(0, top);
       calmScrollTo(top, function () {
         try { history.pushState(null, '', id); } catch (err) { /* ignore */ }

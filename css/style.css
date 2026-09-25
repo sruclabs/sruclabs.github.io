@@ -116,7 +116,7 @@
 
 *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; -webkit-tap-highlight-color: transparent; }
 html { -webkit-text-size-adjust: 100%; }
-section[id], footer[id] { scroll-margin-top: 88px; }
+section[id], footer[id] { scroll-margin-top: 73px; }
 body {
   background: var(--paper);
   color: var(--ink);
@@ -642,6 +642,7 @@ img, svg { display: block; max-width: 100%; }
 
 @media (max-width: 640px) {
   :root { --gut: 20px; }
+  section[id], footer[id] { scroll-margin-top: 65px; }
   .topbar-in { height: 64px; }
   .wordmark-logo { width: 136px; }
   .foot-logo { width: 100%; }
