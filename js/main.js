@@ -160,6 +160,30 @@
     });
   });
 
+  /* 4b. Scroll-to-top button — calm return, responsive visibility */
+  var scrollTopBtn = document.getElementById('scroll-top');
+  if (scrollTopBtn) {
+    var checkScrollTop = function () {
+      if (window.pageYOffset > 400) {
+        scrollTopBtn.classList.add('visible');
+      } else {
+        scrollTopBtn.classList.remove('visible');
+      }
+    };
+    window.addEventListener('scroll', checkScrollTop, { passive: true });
+    checkScrollTop();
+
+    scrollTopBtn.addEventListener('click', function () {
+      calmScrollTo(0, function () {
+        try {
+          if (window.location.hash) {
+            history.pushState(null, '', window.location.pathname + window.location.search);
+          }
+        } catch (err) { /* ignore */ }
+      });
+    });
+  }
+
   /* 5. Reveal on scroll — with a small cascade inside groups */
   var items = document.querySelectorAll('.reveal');
   items.forEach(function (el) {
