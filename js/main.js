@@ -38,6 +38,8 @@
     { href: isAppsPage ? './' : 'apps/', label: 'Apps', desktopClass: isAppsPage ? 'active' : undefined, current: isAppsPage },
     { href: '#contact', label: 'Write to us ↓', desktopClass: 'topnav-pill' }
   ];
+  /* Home exists only off the homepage — on / the wordmark is home */
+  if (isAppsPage) NAV_LINKS.unshift({ href: '../', label: 'Home' });
   function buildLink(l, className) {
     var a = document.createElement('a');
     a.setAttribute('href', l.href);
@@ -277,9 +279,42 @@
     var AUTO_MS = 7000;
     var timer = null;
     function pad(n) { return (n < 10 ? '0' : '') + n; }
+    /* sweet paging — each slide breathes in scale and tone with its
+       distance from rest, then hands back to plain CSS when settled */
+    var sweetRaf = null;
+    function sweetTick() {
+      sweetRaf = null;
+      var w = viewport.offsetWidth || 1;
+      var tx = 0;
+      var m = window.getComputedStyle(track).transform;
+      if (m && m !== 'none') {
+        var parts = m.split(',');
+        if (parts.length === 6) tx = parseFloat(parts[4]) || 0;
+        else if (parts.length === 16) tx = parseFloat(parts[12]) || 0;
+      }
+      var pos = -tx / w;
+      var settled = true;
+      slides.forEach(function (s, i) {
+        var d = Math.min(1, Math.abs(i - pos));
+        s.style.opacity = String(1 - 0.28 * d);
+        s.style.transform = 'scale(' + (1 - 0.035 * d) + ')';
+        if (d > 0.002 && d < 0.998) settled = false;
+      });
+      if (!settled || track.classList.contains('live')) {
+        sweetRaf = requestAnimationFrame(sweetTick);
+      } else {
+        slides.forEach(function (s) { s.style.opacity = ''; s.style.transform = ''; });
+      }
+    }
+    function sweetStart() {
+      if (reduceMotion || sweetRaf !== null) return;
+      sweetRaf = requestAnimationFrame(sweetTick);
+    }
     function render() {
       track.style.transform = 'translateX(' + (-at * 100) + '%)';
       if (nowEl) nowEl.textContent = pad(at + 1);
+      if (prevBtn) prevBtn.disabled = (at === 0);
+      if (nextBtn) nextBtn.disabled = (at === count - 1);
       slides.forEach(function (s, i) {
         var hidden = i !== at;
         s.setAttribute('aria-label', (i + 1) + ' of ' + count);
@@ -289,6 +324,7 @@
           else el.removeAttribute('tabindex');
         });
       });
+      sweetStart();
     }
     function stop() {
       if (timer !== null) { window.clearInterval(timer); timer = null; }
@@ -307,11 +343,22 @@
       stop();
       start();
     }
+    function step(d) {
+      /* user-initiated moves clamp at the ends and never wrap —
+         a repeated command from one gesture (trackpad momentum tail)
+         must land on the same card, never bounce back to the first */
+      var next = Math.max(0, Math.min(count - 1, at + d));
+      if (next === at) return;
+      at = next;
+      render();
+      stop();
+      start();
+    }
     if (count < 2) {
       if (navRow) navRow.style.display = 'none';
     } else {
-      if (prevBtn) prevBtn.addEventListener('click', function () { go(-1); });
-      if (nextBtn) nextBtn.addEventListener('click', function () { go(1); });
+      if (prevBtn) prevBtn.addEventListener('click', function () { step(-1); });
+      if (nextBtn) nextBtn.addEventListener('click', function () { step(1); });
       carousel.addEventListener('pointerenter', stop);
       carousel.addEventListener('pointerleave', start);
       carousel.addEventListener('focusin', stop);
@@ -338,6 +385,7 @@
           try { viewport.setPointerCapture(e.pointerId); } catch (err) { /* ignore */ }
         }
         track.style.transform = 'translateX(calc(' + (-at * 100) + '% + ' + dragDX + 'px))';
+        sweetStart();
       });
       var endDrag = function () {
         if (dragX === null) return;
@@ -370,14 +418,14 @@
         if (Math.abs(e.deltaX) <= Math.abs(e.deltaY)) return;
         e.preventDefault();
         wheelLock = true;
-        go(e.deltaX > 0 ? 1 : -1);
+        step(e.deltaX > 0 ? 1 : -1);
         window.setTimeout(function () { wheelLock = false; }, 800);
       }, { passive: false });
 
       /* keyboard — region is focusable via tabindex */
       carousel.addEventListener('keydown', function (e) {
-        if (e.key === 'ArrowRight') { e.preventDefault(); go(1); }
-        else if (e.key === 'ArrowLeft') { e.preventDefault(); go(-1); }
+        if (e.key === 'ArrowRight') { e.preventDefault(); step(1); }
+        else if (e.key === 'ArrowLeft') { e.preventDefault(); step(-1); }
       });
     }
     if (totalEl) totalEl.textContent = pad(count);
