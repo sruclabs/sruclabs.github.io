@@ -1,0 +1,196 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="description" content="Apps by Sruc Labs. One program at a time, done properly. First release: Magnet Search for Android.">
+  <meta name="theme-color" content="#F6F7F3">
+  <title>Apps — Sruc Labs</title>
+  <script>
+    try {
+      var t = localStorage.getItem('sruc-theme');
+      if (!t) t = window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light';
+      document.documentElement.dataset.theme = t;
+    } catch (e) { document.documentElement.dataset.theme = 'light'; }
+  </script>
+
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter+Tight:ital,wght@0,400;0,500;0,600;0,700;0,800;1,400&family=Newsreader:ital,opsz,wght@1,6..72,400;1,6..72,500&family=IBM+Plex+Mono:wght@400;500&display=swap" rel="stylesheet">
+
+  <link rel="icon" type="image/svg+xml" sizes="any" href="../assets/brand/icon.svg?v=20260924-2">
+
+  <link rel="stylesheet" href="../css/style.css?v=20261008-4">
+</head>
+<body>
+
+  <div class="ambient" aria-hidden="true">
+    <span class="a1"></span><span class="a2"></span><span class="a3"></span>
+  </div>
+  <div class="page-grid" aria-hidden="true">
+    <span></span><span></span><span></span><span></span>
+  </div>
+  <div class="grain" aria-hidden="true"></div>
+
+  <!-- ================= HEADER ================= -->
+  <header class="topbar">
+    <div class="wrap topbar-in">
+      <a class="wordmark" href="../" aria-label="Sruc Labs home">
+        <img class="wordmark-logo logo-dark" src="../assets/brand/SrucLabs_dark.svg?v=20260924" alt="Sruc Labs" width="160" height="33">
+        <img class="wordmark-logo logo-light" src="../assets/brand/SrucLabs_light.svg?v=20260924" alt="" aria-hidden="true" width="160" height="33">
+      </a>
+
+      <nav class="topnav" aria-label="Primary">
+        <!-- links render from NAV_LINKS in js/main.js -->
+      </nav>
+
+      <button class="theme-toggle" id="theme-toggle" aria-pressed="false" aria-label="Switch to dark theme" title="Toggle theme">
+        <svg class="icon-moon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+          <path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"></path>
+        </svg>
+        <svg class="icon-sun" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+          <circle cx="12" cy="12" r="4.5"></circle>
+          <line x1="12" y1="2" x2="12" y2="4.5"></line>
+          <line x1="12" y1="19.5" x2="12" y2="22"></line>
+          <line x1="2" y1="12" x2="4.5" y2="12"></line>
+          <line x1="19.5" y1="12" x2="22" y2="12"></line>
+          <line x1="4.6" y1="4.6" x2="6.4" y2="6.4"></line>
+          <line x1="17.6" y1="17.6" x2="19.4" y2="19.4"></line>
+          <line x1="4.6" y1="19.4" x2="6.4" y2="17.6"></line>
+          <line x1="17.6" y1="6.4" x2="19.4" y2="4.6"></line>
+        </svg>
+      </button>
+      <button class="menu-btn" aria-expanded="false" aria-controls="mobilemenu">Menu</button>
+    </div>
+    <div class="wrap mobilemenu" id="mobilemenu">
+      <!-- links render from NAV_LINKS in js/main.js -->
+    </div>
+  </header>
+
+  <main>
+    <!-- ================= 01 RELEASES ================= -->
+    <section class="section wrap" id="releases">
+      <div class="sec-head reveal">
+        <p class="sec-index"><span>01</span><i></i>Releases</p>
+        <h2>One shipped,<br>one <span class="serif">in work.</span></h2>
+        <p class="sec-sub">Every program is built the same way: what it does and how it reads, decided together. Magnet Search is out; Glide is on the bench. Each one maintained by Sruc Labs.</p>
+      </div>
+
+      <article class="work reveal">
+        <div class="work-info">
+          <p class="work-eyebrow"><span class="pill">Shipped · v1</span> Magnet Search / Android</p>
+          <h3>One search,<br>several sources.</h3>
+          <p class="work-desc">Type once, check open indexes and public archives together. Open a result straight in your torrent app, or save it for later. No account, no search log on a server.</p>
+          <ul class="work-list">
+            <li><b>Multi-source</b> — one query, several indexes, de-duplicated</li>
+            <li><b>On-device</b> — bookmarks and history stay on the phone</li>
+            <li><b>Straight handoff</b> — magnet opens in the app you already use</li>
+          </ul>
+          <div class="work-cta">
+            <a class="btn btn-light" href="https://sruclabs.github.io/magnetsearch/" target="_blank" rel="noopener">Open product page ↗</a>
+          </div>
+          <p class="work-meta">Native Android · Small install · Works on low-memory phones</p>
+        </div>
+
+        <div class="work-visual" aria-hidden="true">
+          <div class="phone">
+            <div class="phone-top"><span>Magnet Search</span><span>4 sources · direct</span></div>
+            <div class="phone-search"><span>linux kernel archive</span><b>⌕</b></div>
+            <div class="phone-row">
+              <i></i>
+              <div><strong>Ubuntu 24.04 LTS — Desktop ISO</strong><small>Open index · 5.8 GB · ▲ 1,840</small></div>
+              <em>↗</em>
+            </div>
+            <div class="phone-row">
+              <i></i>
+              <div><strong>Apollo Lunar Surface — Audio</strong><small>Archive · 1.4 GB · ▲ 86</small></div>
+              <em>↗</em>
+            </div>
+            <div class="phone-row">
+              <i></i>
+              <div><strong>Physics Open Data — Run 2</strong><small>Research · 420 MB · ▲ 41</small></div>
+              <em>↗</em>
+            </div>
+            <div class="phone-foot"><span>Private by default</span><span>No account</span></div>
+          </div>
+          <p class="work-cap">Interface study. The shipped app may differ slightly.</p>
+        </div>
+      </article>
+
+      <div class="next reveal">
+        <div>
+          <p class="next-eyebrow">Next — in work</p>
+          <h3>One at a time.</h3>
+          <p>The studio works on one program at a time. When the next one is ready, it will appear here.</p>
+        </div>
+        <a class="btn btn-ghost" href="#contact">Write to us <span aria-hidden="true">↓</span></a>
+      </div>
+
+    </section>
+
+    <!-- ================= CONTACT ================= -->
+    <section class="section wrap contact" id="contact">
+      <div class="contact-card reveal">
+        <div>
+          <p class="sec-index light"><span>02</span><i></i>Contact</p>
+          <h2>Have something<br>worth <span class="serif">making well?</span></h2>
+          <p>Write a few lines about what you need and when. We read everything and reply within a few working days.</p>
+        </div>
+        <div class="contact-side">
+          <a class="mail" href="mailto:company@sruclabs.studio">company@sruclabs.studio</a>
+          <p class="contact-meta">For Magnet Search help, include<br>your app version + phone model.</p>
+          <a class="btn btn-dark" href="mailto:company@sruclabs.studio?subject=Hello%20Sruc%20Labs">Start a note ↗</a>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <!-- ================= FOOTER ================= -->
+  <footer class="footer">
+    <div class="wrap">
+      <p class="foot-big">
+        <img class="foot-logo logo-dark" src="../assets/brand/SrucLabs_dark.svg?v=20260924" alt="Sruc Labs">
+        <img class="foot-logo logo-light" src="../assets/brand/SrucLabs_light.svg?v=20260924" alt="Sruc Labs">
+      </p>
+      <div class="foot-grid">
+        <div>
+          <p class="foot-k">Studio</p>
+          <p>Independent software studio.<br>Function × Design × Engineering.</p>
+        </div>
+        <div>
+          <p class="foot-k">Index</p>
+          <a href="../#practice">Practice</a>
+          <a href="../#work">Work</a>
+          <a href="./" aria-current="page">Apps</a>
+          <a href="../#name">Name</a>
+          <a href="#contact">Contact</a>
+        </div>
+        <div>
+          <p class="foot-k">Releases</p>
+          <a href="https://sruclabs.github.io/magnetsearch/" target="_blank" rel="noopener">Magnet Search ↗</a>
+        </div>
+        <div>
+          <p class="foot-k">Write</p>
+          <a href="mailto:company@sruclabs.studio">company@sruclabs.studio</a>
+          <p class="foot-muted">We reply to every note.</p>
+        </div>
+      </div>
+      <div class="foot-base">
+        <span>© <span id="year">2026</span> Sruc Labs</span>
+        <span>Set in Inter Tight, Newsreader &amp; Plex Mono</span>
+        <span>Made with care</span>
+      </div>
+    </div>
+  </footer>
+
+  <!-- ================= SCROLL TO TOP ================= -->
+  <button class="scroll-top" id="scroll-top" aria-label="Scroll to top" title="Scroll to top">
+    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+      <line x1="12" y1="19" x2="12" y2="5"></line>
+      <polyline points="5 12 12 5 19 12"></polyline>
+    </svg>
+  </button>
+
+  <script src="../js/main.js?v=20261008-6"></script>
+</body>
+</html>

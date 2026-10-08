@@ -20,7 +20,7 @@
 
   <link rel="icon" type="image/svg+xml" sizes="any" href="assets/brand/icon.svg?v=20260924-2">
 
-  <link rel="stylesheet" href="css/style.css?v=20260925-3">
+  <link rel="stylesheet" href="css/style.css?v=20261008-4">
 </head>
 <body>
 
@@ -75,7 +75,7 @@
         <p class="lede reveal">Sruc Labs is a small studio building useful programs. We decide what a program should do and how it should read at the same time. Then we build it carefully, so it stays plain to use and steady under pressure.</p>
 
         <div class="hero-cta reveal">
-          <a class="btn btn-dark" href="https://sruclabs.github.io/magnetsearch/" target="_blank" rel="noopener">See Magnet Search <span aria-hidden="true">↗</span></a>
+          <a class="btn btn-dark" href="apps/">See all apps <span aria-hidden="true">→</span></a>
           <a class="btn btn-ghost" href="#practice">How we work <span aria-hidden="true">↓</span></a>
         </div>
 
@@ -220,52 +220,92 @@
     <section class="section wrap" id="work">
       <div class="sec-head reveal">
         <p class="sec-index"><span>02</span><i></i>Work</p>
-        <h2>First out<br>of the studio: <span class="serif">Magnet Search.</span></h2>
-        <p class="sec-sub">One program, done properly. A search utility for Android that looks in several public sources at once. It keeps your business on your phone.</p>
+        <h2>Releases<br>from the <span class="serif">studio.</span></h2>
+        <p class="sec-sub">Standalone programs, each done properly. One shipped and in pockets; the next taking shape on the bench.</p>
       </div>
 
-      <article class="work reveal">
-        <div class="work-info">
-          <p class="work-eyebrow"><span class="pill">Shipped · v1</span> Magnet Search / Android</p>
-          <h3>One search,<br>several sources.</h3>
-          <p class="work-desc">Type once, check open indexes and public archives together. Open a result straight in your torrent app, or save it for later. No account, no search log on a server.</p>
-          <ul class="work-list">
-            <li><b>Multi-source</b> — one query, several indexes, de-duplicated</li>
-            <li><b>On-device</b> — bookmarks and history stay on the phone</li>
-            <li><b>Straight handoff</b> — magnet opens in the app you already use</li>
-          </ul>
-          <div class="work-cta">
-            <a class="btn btn-light" href="https://sruclabs.github.io/magnetsearch/" target="_blank" rel="noopener">Open product page ↗</a>
+      <div class="work-carousel reveal" id="work-carousel" role="region" aria-roledescription="carousel" aria-label="Studio releases" tabindex="0">
+        <div class="work-viewport">
+          <div class="work-track">
+            <article class="work" role="group" aria-roledescription="slide" aria-label="1 of 2">
+              <div class="work-info">
+                <p class="work-eyebrow"><span class="pill">Shipped · v1</span> Magnet Search / Android</p>
+                <h3>One search,<br>several sources.</h3>
+                <p class="work-desc">Type once, check open indexes and public archives together. Open a result straight in your torrent app, or save it for later. No account, no search log on a server.</p>
+                <ul class="work-list">
+                  <li><b>Multi-source</b> — one query, several indexes, de-duplicated</li>
+                  <li><b>On-device</b> — bookmarks and history stay on the phone</li>
+                  <li><b>Straight handoff</b> — magnet opens in the app you already use</li>
+                </ul>
+                <div class="work-cta">
+                  <a class="btn btn-light" href="https://sruclabs.github.io/magnetsearch/" target="_blank" rel="noopener">Open product page ↗</a>
+                </div>
+                <p class="work-meta">Native Android · Small install · Works on low-memory phones</p>
+              </div>
+
+              <div class="work-visual" aria-hidden="true">
+                <div class="phone">
+                  <div class="phone-top"><span>Magnet Search</span><span>4 sources · direct</span></div>
+                  <div class="phone-search"><span>linux kernel archive</span><b>⌕</b></div>
+                  <div class="phone-row">
+                    <i></i>
+                    <div><strong>Ubuntu 24.04 LTS — Desktop ISO</strong><small>Open index · 5.8 GB · ▲ 1,840</small></div>
+                    <em>↗</em>
+                  </div>
+                  <div class="phone-row">
+                    <i></i>
+                    <div><strong>Apollo Lunar Surface — Audio</strong><small>Archive · 1.4 GB · ▲ 86</small></div>
+                    <em>↗</em>
+                  </div>
+                  <div class="phone-row">
+                    <i></i>
+                    <div><strong>Physics Open Data — Run 2</strong><small>Research · 420 MB · ▲ 41</small></div>
+                    <em>↗</em>
+                  </div>
+                  <div class="phone-foot"><span>Private by default</span><span>No account</span></div>
+                </div>
+                <p class="work-cap">Interface study. The shipped app may differ slightly.</p>
+              </div>
+            </article>
+
+            <article class="work" role="group" aria-roledescription="slide" aria-label="2 of 2">
+              <div class="work-info">
+                <p class="work-eyebrow"><span class="pill">In work</span> Glide / Mobile</p>
+                <h3>One remote,<br>every television.</h3>
+                <p class="work-desc">Glide turns the phone you already carry into the only remote the living room needs. Pair over your home network, then power, volume, and input from one quiet screen. Nothing leaves the house.</p>
+                <ul class="work-list">
+                  <li><b>Local pairing</b> — no hub, no account, no cloud</li>
+                  <li><b>One screen</b> — power, volume, input, D-pad</li>
+                  <li><b>At rest</b> — dims itself, sips battery</li>
+                </ul>
+                <div class="work-cta">
+                  <a class="btn btn-light" href="apps/">More in Apps →</a>
+                </div>
+                <p class="work-meta">Android · iOS · Home network · No account</p>
+              </div>
+
+              <div class="work-visual" aria-hidden="true">
+                <div class="phone remote">
+                  <div class="phone-top"><span>Glide</span><span>TV · local</span></div>
+                  <div class="remote-screen"><span>Living Room TV</span><b>●</b></div>
+                  <div class="remote-pad"><i class="rp-up"></i><i class="rp-right"></i><i class="rp-down"></i><i class="rp-left"></i><em>OK</em></div>
+                  <div class="remote-keys"><span>− VOL +</span><span>POWER</span><span>− CH +</span></div>
+                  <div class="phone-foot"><span>Local only</span><span>No account</span></div>
+                </div>
+                <p class="work-cap">Interface study. The shipped app may differ.</p>
+              </div>
+            </article>
           </div>
-          <p class="work-meta">Native Android · Small install · Works on low-memory phones</p>
         </div>
 
-        <div class="work-visual" aria-hidden="true">
-          <div class="phone">
-            <div class="phone-top"><span>Magnet Search</span><span>4 sources · direct</span></div>
-            <div class="phone-search"><span>linux kernel archive</span><b>⌕</b></div>
-            <div class="phone-row">
-              <i></i>
-              <div><strong>Ubuntu 24.04 LTS — Desktop ISO</strong><small>Open index · 5.8 GB · ▲ 1,840</small></div>
-              <em>↗</em>
-            </div>
-            <div class="phone-row">
-              <i></i>
-              <div><strong>Apollo Lunar Surface — Audio</strong><small>Archive · 1.4 GB · ▲ 86</small></div>
-              <em>↗</em>
-            </div>
-            <div class="phone-row">
-              <i></i>
-              <div><strong>Physics Open Data — Run 2</strong><small>Research · 420 MB · ▲ 41</small></div>
-              <em>↗</em>
-            </div>
-            <div class="phone-foot"><span>Private by default</span><span>No account</span></div>
-          </div>
-          <p class="work-cap">Interface study. The shipped app may differ slightly.</p>
+        <div class="work-nav">
+          <button class="work-arrow" id="work-prev" aria-label="Previous release">←</button>
+          <p class="work-count"><span id="work-now">01</span> / <span id="work-total">02</span></p>
+          <button class="work-arrow" id="work-next" aria-label="Next release">→</button>
         </div>
-      </article>
+      </div>
 
-      <p class="work-note reveal">The studio is wider than any one release. Search is where we started; it isn’t the whole brief.</p>
+      <p class="work-all reveal"><a href="apps/">See all apps <span aria-hidden="true">→</span></a></p>
     </section>
 
     <!-- ================= 03 NAME ================= -->
@@ -296,9 +336,9 @@
           <p>Write a few lines about what you need and when. We read everything and reply within a few working days.</p>
         </div>
         <div class="contact-side">
-          <a class="mail" href="mailto:sruclabs@gmail.com">sruclabs@gmail.com</a>
+          <a class="mail" href="mailto:company@sruclabs.studio">company@sruclabs.studio</a>
           <p class="contact-meta">For Magnet Search help, include<br>your app version + phone model.</p>
-          <a class="btn btn-dark" href="mailto:sruclabs@gmail.com?subject=Hello%20Sruc%20Labs">Start a note ↗</a>
+          <a class="btn btn-dark" href="mailto:company@sruclabs.studio?subject=Hello%20Sruc%20Labs">Start a note ↗</a>
         </div>
       </div>
     </section>
@@ -320,6 +360,7 @@
           <p class="foot-k">Index</p>
           <a href="#practice">Practice</a>
           <a href="#work">Work</a>
+          <a href="apps/">Apps</a>
           <a href="#name">Name</a>
           <a href="#contact">Contact</a>
         </div>
@@ -329,7 +370,7 @@
         </div>
         <div>
           <p class="foot-k">Write</p>
-          <a href="mailto:sruclabs@gmail.com">sruclabs@gmail.com</a>
+          <a href="mailto:company@sruclabs.studio">company@sruclabs.studio</a>
           <p class="foot-muted">We reply to every note.</p>
         </div>
       </div>
@@ -349,6 +390,6 @@
     </svg>
   </button>
 
-  <script src="js/main.js?v=20260925-2"></script>
+  <script src="js/main.js?v=20261008-6"></script>
 </body>
 </html>
