@@ -1,7 +1,8 @@
 .DS_Store
 
-# Separate project repository
+# Separate project repositories
 /magnetsearch/
+/glide/
 
 # Source materials kept outside the deployed homepage
 /SrucLabs_Logo/

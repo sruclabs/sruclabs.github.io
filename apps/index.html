@@ -20,7 +20,7 @@
 
   <link rel="icon" type="image/svg+xml" sizes="any" href="../assets/brand/icon.svg?v=20260924-2">
 
-  <link rel="stylesheet" href="../css/style.css?v=20261008-8">
+  <link rel="stylesheet" href="../css/style.css?v=20261009-3">
 </head>
 <body>
 
@@ -74,9 +74,13 @@
         <p class="sec-index"><span>01</span><i></i>Releases</p>
         <h2>One shipped,<br>one <span class="serif">in work.</span></h2>
         <p class="sec-sub">Every program is built the same way: what it does and how it reads, decided together. Magnet Search is out; Glide is on the bench. Each one maintained by Sruc Labs.</p>
+        <nav class="jump-pills reveal" aria-label="Jump to an app">
+          <a class="jump-pill" href="#app-magnet-search"><span aria-hidden="true">01</span>Magnet Search<span aria-hidden="true">↓</span></a>
+          <a class="jump-pill" href="#app-glide"><span aria-hidden="true">02</span>Glide<span aria-hidden="true">↓</span></a>
+        </nav>
       </div>
 
-      <article class="work reveal">
+      <article class="work reveal" id="app-magnet-search">
         <div class="work-info">
           <p class="work-eyebrow"><span class="pill">Shipped · v1</span> Magnet Search / Android</p>
           <h3>One search,<br>several sources.</h3>
@@ -117,14 +121,33 @@
         </div>
       </article>
 
-      <div class="next reveal">
-        <div>
-          <p class="next-eyebrow">In work — Glide</p>
-          <h3>One remote, every television.</h3>
-          <p>A universal TV remote for Android, paired over your home network. No hub, no account. Its product page is open now.</p>
+      <article class="work reveal" id="app-glide">
+        <div class="work-info">
+          <p class="work-eyebrow"><span class="pill">In work</span> Glide / Android</p>
+          <h3>One remote,<br>every television.</h3>
+          <p class="work-desc">Glide turns the phone you already carry into the only remote the living room needs. Pair over your home network, then power, volume, and input from one quiet screen. Nothing leaves the house.</p>
+          <ul class="work-list">
+            <li><b>Local pairing</b> — no hub, no account, no cloud</li>
+            <li><b>One screen</b> — power, volume, input, D-pad</li>
+            <li><b>At rest</b> — dims itself, sips battery</li>
+          </ul>
+          <div class="work-cta">
+            <a class="btn btn-light" href="../glide/" target="_blank" rel="noopener">Open product page ↗</a>
+          </div>
+          <p class="work-meta">Native Android · Home network · No account</p>
         </div>
-        <a class="btn btn-ghost" href="../glide/">Open product page <span aria-hidden="true">→</span></a>
-      </div>
+
+        <div class="work-visual" aria-hidden="true">
+          <div class="phone remote">
+            <div class="phone-top"><span>Glide</span><span>TV · local</span></div>
+            <div class="remote-screen"><span>Living Room TV</span><b>●</b></div>
+            <div class="remote-pad"><i class="rp-up"></i><i class="rp-right"></i><i class="rp-down"></i><i class="rp-left"></i><em>OK</em></div>
+            <div class="remote-keys"><span>− VOL +</span><span>POWER</span><span>− CH +</span></div>
+            <div class="phone-foot"><span>Local only</span><span>No account</span></div>
+          </div>
+          <p class="work-cap">Interface study. The shipped app may differ.</p>
+        </div>
+      </article>
 
     </section>
 
@@ -168,7 +191,7 @@
         <div>
           <p class="foot-k">Releases</p>
           <a href="https://sruclabs.github.io/magnetsearch/" target="_blank" rel="noopener">Magnet Search ↗</a>
-          <a href="../glide/">Glide</a>
+          <a href="../glide/" target="_blank" rel="noopener">Glide ↗</a>
         </div>
         <div>
           <p class="foot-k">Write</p>
@@ -192,6 +215,6 @@
     </svg>
   </button>
 
-  <script src="../js/main.js?v=20261008-9"></script>
+  <script src="../js/main.js?v=20261009-2"></script>
 </body>
 </html>

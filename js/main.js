@@ -82,6 +82,7 @@
     menu.classList.toggle('open', open);
     btn.setAttribute('aria-expanded', open ? 'true' : 'false');
     btn.textContent = open ? 'Close' : 'Menu';
+    document.body.style.overflow = open ? 'hidden' : '';
   }
   if (btn && menu) {
     btn.addEventListener('click', function () {
@@ -101,6 +102,10 @@
         setMenu(false);
         btn.focus();
       }
+    });
+    /* resizing to desktop with the menu open must not strand it */
+    window.addEventListener('resize', function () {
+      if (window.innerWidth > 860 && menu.classList.contains('open')) setMenu(false);
     });
   }
 
@@ -158,11 +163,20 @@
       // The mobile menu is an overlay — closing it changes no layout,
       // so the landing is measured and scrolled to immediately.
       setMenu(false);
+      // A jump target below the fold may still carry its pre-reveal
+      // offset — settle it first so the landing is measured exactly,
+      // then hand its transition back once arrived.
+      var needsReveal = target.classList && target.classList.contains('reveal') && !target.classList.contains('in');
+      if (needsReveal) {
+        target.style.transition = 'none';
+        target.classList.add('in');
+      }
       var topbarIn = document.querySelector('.topbar-in');
       var headerOffset = topbarIn ? (topbarIn.offsetHeight + 1) : 73;
       var top = target.getBoundingClientRect().top + window.pageYOffset - headerOffset;
       top = Math.max(0, top);
       calmScrollTo(top, function () {
+        if (needsReveal) target.style.transition = '';
         try { history.pushState(null, '', id); } catch (err) { /* ignore */ }
       });
     });
